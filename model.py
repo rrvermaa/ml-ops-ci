@@ -74,7 +74,7 @@ tf.random.set_seed(42)
 
 # Create a model using the Sequential API
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(1), 
+    tf.keras.layers.Dense(1, input_shape=(1,)), 
     tf.keras.layers.Dense(1)
     ])
 
@@ -89,12 +89,18 @@ model.fit(X_train, y_train, epochs=100)
 
 # Make and plot predictions for model_1
 y_preds = model.predict(X_test)
-plot_predictions(train_data=X_train, train_labels=y_train,  test_data=X_test, test_labels=y_test,  predictions=y_preds)
+plot_predictions(train_data=X_train, train_labels=y_train, test_data=X_test, test_labels=y_test, predictions=y_preds)
 
 
 # Calculate model_1 metrics
-mae_1 = np.round(float(mae(y_test, y_preds.squeeze()).numpy()), 2)
-mse_1 = np.round(float(mse(y_test, y_preds.squeeze()).numpy()), 2)
+mae_metric = tf.keras.metrics.MeanAbsoluteError()
+mse_metric = tf.keras.metrics.MeanSquaredError()
+
+mae_metric.update_state(y_test, y_preds.squeeze())
+mse_metric.update_state(y_test, y_preds.squeeze())
+
+mae_1 = np.round(mae_metric.result().numpy(), 2)
+mse_1 = np.round(mse_metric.result().numpy(), 2)
 print(f'\nMean Absolute Error = {mae_1}, Mean Squared Error = {mse_1}.')
 
 # Write metrics to file
