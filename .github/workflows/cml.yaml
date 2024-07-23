@@ -1,7 +1,7 @@
 name: mlops-example-tensorflow-regression
 on: [push]
 jobs:  
-  train-and-report:    
+  run:    
     runs-on: [ubuntu-latest]    
     container: docker://ghcr.io/iterative/cml:0-dvc2-base1    
     steps:
@@ -10,7 +10,7 @@ jobs:
         env: 
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-      - run: |  
+        run: |  
           pip install -r requirements.txt
           python model.py  
 
