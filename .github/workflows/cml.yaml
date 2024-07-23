@@ -15,4 +15,4 @@ jobs:
 
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
-          cml-send-comment report.md --token $REPO_TOKEN
+          cml comment create --token $REPO_TOKEN --file report.md
