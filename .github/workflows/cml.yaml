@@ -19,4 +19,8 @@ jobs:
         run: |
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
-          cml comment create --token $REPO_TOKEN --file report.md --target "pr"
+          cml comment update report.md \
+            --token $REPO_TOKEN \
+            --target "pr" \
+            --publish \
+            --watch
